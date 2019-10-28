@@ -1,5 +1,15 @@
 import React,{Component} from 'react';
 import { tsImportEqualsDeclaration } from '@babel/types';
+import axios from 'axios';
+import { withAlert } from 'react-alert'
+
+const options = {
+  position: 'bottom center',
+  timeout: 5000,
+  offset: '30px',
+  transition: 'scale'
+}
+
 class CreateToDo extends Component{
   constructor(props){
       super(props);
@@ -10,6 +20,7 @@ class CreateToDo extends Component{
           todo_completed:false
       }
   }
+ 
   onChangeTodoDescription=(e)=>{
       this.setState({
           todo_description:e.target.value
@@ -27,10 +38,23 @@ class CreateToDo extends Component{
   }
 
   onSubmit=(e)=>{
+       const alert = this.props.alert;
       e.preventDefault();
       console.log(`description is:${this.state.todo_description}`);
       console.log(`responsible is :${this.state.todo_responsible}`);
       console.log(`priority is:${this.state.todo_priority}`);
+
+
+      const newTodo={
+        todo_description:this.state.todo_description,
+        todo_responsible:this.state.todo_responsible,
+        todo_priority:this.state.todo_priority,
+        todo_completed:false 
+
+        
+      }
+      axios.post('http://localhost:4040/todos',newTodo).then(res=>console.log(res))
+
 
       this.setState({
         todo_description:'',
@@ -39,7 +63,9 @@ class CreateToDo extends Component{
         todo_completed:false 
 
       })
+      alert.show('Todo Created Successfully')
 
+     
 
   }
 
@@ -86,4 +112,4 @@ return (
 
 }
 
-export default CreateToDo;
+export default withAlert()(CreateToDo);

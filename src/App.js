@@ -11,6 +11,7 @@ import EditTodo from './components/edit-todo.component';
 
 function App() {
   return (
+    
     <Router>
    <div className="container">
   
@@ -30,7 +31,7 @@ function App() {
   </ul>
 </nav>
 <Route path="/" exact component={TodoList}/>
-<Route path="/edit/:id" component={EditTodo}/>
+<Route path="/todos/edit/:id" component={EditTodo}/>
 <Route path="/create" component={CreateToDo}/>
 </div>
 
